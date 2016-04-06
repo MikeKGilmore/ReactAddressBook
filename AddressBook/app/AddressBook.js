@@ -15,9 +15,8 @@
 
     //Component structure
 
-    //-Index
+    //-AddressBook
     //  -AddressBookEntryList
-    //      -AddressBookEntry
 
     //Index Component
     var AddressBook = React.createClass({
@@ -64,10 +63,12 @@
         handleEditField(event) {
             //Enter Button
             if (event.keyCode === 13) {
-                console.log("handling edit field");
-                console.log(event.target);
+//                console.log("handling edit field");
+//                console.log(event.target);
                 var target = event.target;
                 var update = {};
+                
+                //TODO:  Validate input
 
                 update._id = this.state.editing;
                 update[target.name] = target.value;
@@ -99,7 +100,7 @@
                 type: 'POST',
                 data: update,
                 success: function(data) {
-                    //TODO - update
+                    //TODO - handle update
                     this.setState({editing: null});
                 }.bind(this),
                 error: function(xhr, status, err) {
@@ -114,7 +115,6 @@
                     return (
                         <div key={addressListEntry._id}
                              className="list-group-item">
-                            <div><label>(Hidden) _id: </label>{addressListEntry._id}</div>
                             <div><input type="text" placeholder="Name" defaultValue={addressListEntry.Name} onKeyDown={this.handleEditField} ref={`Name_${addressListEntry._id}`} /></div>
                             <div><input type="text" placeholder="Email" defaultValue={addressListEntry.Email} onKeyDown={this.handleEditField} ref={`Email_${addressListEntry._id}`} /></div>
                             <div><input type="text" placeholder="Phone" defaultValue={addressListEntry.Phone} onKeyDown={this.handleEditField} ref={`Phone_${addressListEntry._id}`} /></div>
@@ -132,7 +132,6 @@
                                    <h3>{addressListEntry.Name}</h3>
                                </div>
                                <div className="body">
-                                   <div><label>(Hidden) _id: </label>{addressListEntry._id}</div>
                                    <div><label>e-mail: </label>{addressListEntry.Email}</div>
                                    <div><label>Phone: </label>{addressListEntry.Phone}</div>
                                    <div><label>Address: </label>{addressListEntry.Address}</div>
@@ -145,7 +144,7 @@
             }, this);
             
             return (
-                <ul className="addressBookEntryList">
+                <ul className="list-group">
                     <h2 className="addressBookOwner">{this.props.data.Owner}'s Address Book</h2>
                     {addressEntries}
                 </ul>
